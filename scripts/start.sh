@@ -25,13 +25,13 @@ echo date.timezone = $PHPTZ >>/etc/php.ini
 procs=$(cat /proc/cpuinfo |grep processor | wc -l)
 sed -i -e "s/worker_processes 5/worker_processes $procs/" /etc/nginx/nginx.conf
 
-# Install the correct ionCube loader and WHMCS
-if [ ! -e /usr/share/nginx/html/.first-run-complete ]; then
-  PHPVERSION=$(php --version | grep '^PHP' | sed 's/PHP \([0-9]\.[0-9]*\).*$/\1/')
-  mkdir /usr/local/ioncube
-  cp /tmp/ioncube/ioncube_loader_lin_$PHPVERSION.so /usr/local/ioncube
-  echo zend_extension = /usr/local/ioncube/ioncube_loader_lin_$PHPVERSION.so >>/etc/php.ini
+PHPVERSION=$(php --version | grep '^PHP' | sed 's/PHP \([0-9]\.[0-9]*\).*$/\1/')
+mkdir /usr/local/ioncube
+cp /tmp/ioncube/ioncube_loader_lin_$PHPVERSION.so /usr/local/ioncube
+echo zend_extension = /usr/local/ioncube/ioncube_loader_lin_$PHPVERSION.so >>/etc/php.ini
 
+# Install the WHMCS
+if [ ! -e /usr/share/nginx/html/.first-run-complete ]; then
   rm -f /usr/share/nginx/html/*.html
   unzip /whmcs.zip -d /usr/share/nginx/html && mv /usr/share/nginx/html/whmcs/* /usr/share/nginx/html && rmdir /usr/share/nginx/html/whmcs
   cat > /usr/share/nginx/html/configuration.php <<EOF
