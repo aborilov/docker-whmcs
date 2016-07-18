@@ -68,7 +68,7 @@ do {
 } while ($mysql->connect_error);
 $mysql->close();
 EOPHP
-  mysql -h db -D whmcs -pwhmcs < /dump.sql
+  mysql -h 127.0.0.1 -D whmcs -pwhmcs < /dump.sql
   rm -f /dump.sql
 
   echo "Do not remove this file." > /.first-run-complete
