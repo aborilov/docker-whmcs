@@ -26,7 +26,7 @@ procs=$(cat /proc/cpuinfo |grep processor | wc -l)
 sed -i -e "s/worker_processes 5/worker_processes $procs/" /etc/nginx/nginx.conf
 
 # Install the correct ionCube loader and WHMCS
-if [ ! -e /.first-run-complete ]; then
+if [ ! -e /usr/share/nginx/html/.first-run-complete ]; then
   PHPVERSION=$(php --version | grep '^PHP' | sed 's/PHP \([0-9]\.[0-9]*\).*$/\1/')
   mkdir /usr/local/ioncube
   cp /tmp/ioncube/ioncube_loader_lin_$PHPVERSION.so /usr/local/ioncube
@@ -36,7 +36,7 @@ if [ ! -e /.first-run-complete ]; then
   unzip /whmcs.zip -d /usr/share/nginx/html && mv /usr/share/nginx/html/whmcs/* /usr/share/nginx/html && rmdir /usr/share/nginx/html/whmcs
   cat > /usr/share/nginx/html/configuration.php <<-'EOF'
 <?php
-$license = 'bla-bla';
+$license = '${WHMCS_LICENSE:-nolicense}';
 $db_host = '127.0.0.1';
 $db_port = '3306';
 $db_username = 'whmcs';
@@ -71,7 +71,7 @@ EOPHP
   mysql -h 127.0.0.1 -D whmcs -pwhmcs < /dump.sql
   rm -f /dump.sql
 
-  echo "Do not remove this file." > /.first-run-complete
+  echo "Do not remove this file." > /usr/share/nginx/html/.first-run-complete
 fi
 
 # Again set the right permissions (needed when mounting from a volume)
