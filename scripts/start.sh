@@ -36,7 +36,7 @@ if [ ! -e /usr/share/nginx/html/.first-run-complete ]; then
   unzip /whmcs.zip -d /usr/share/nginx/html && mv /usr/share/nginx/html/whmcs/* /usr/share/nginx/html && rmdir /usr/share/nginx/html/whmcs
   cat > /usr/share/nginx/html/configuration.php <<-'EOF'
 <?php
-$license = '${WHMCS_LICENSE:-nolicense}';
+$license = "${WHMCS_LICENSE:-nolicense}";
 $db_host = '127.0.0.1';
 $db_port = '3306';
 $db_username = 'whmcs';
