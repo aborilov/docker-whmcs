@@ -34,17 +34,17 @@ if [ ! -e /usr/share/nginx/html/.first-run-complete ]; then
 
   rm -f /usr/share/nginx/html/*.html
   unzip /whmcs.zip -d /usr/share/nginx/html && mv /usr/share/nginx/html/whmcs/* /usr/share/nginx/html && rmdir /usr/share/nginx/html/whmcs
-  cat > /usr/share/nginx/html/configuration.php <<-'EOF'
+  cat > /usr/share/nginx/html/configuration.php <<EOF
 <?php
-$license = "${WHMCS_LICENSE:-nolicense}";
-$db_host = '127.0.0.1';
-$db_port = '3306';
-$db_username = 'whmcs';
-$db_password = 'whmcs';
-$db_name = 'whmcs';
-$cc_encryption_hash = 'uHHKBXgBnlfWNUe1boOaHdCBxEeLJOe3lLDMyJeLVjyz4Dr6S57p8zQv4V6DzbwL';
-$templates_compiledir = 'templates_c';
-$mysql_charset = 'utf8';
+\$license = '${WHMCS_LICENSE:-nolicense}';
+\$db_host = '127.0.0.1';
+\$db_port = '3306';
+\$db_username = 'whmcs';
+\$db_password = 'whmcs';
+\$db_name = 'whmcs';
+\$cc_encryption_hash = 'uHHKBXgBnlfWNUe1boOaHdCBxEeLJOe3lLDMyJeLVjyz4Dr6S57p8zQv4V6DzbwL';
+\$templates_compiledir = 'templates_c';
+\$mysql_charset = 'utf8';
 ?>
 EOF
   chown nginx:nginx /usr/share/nginx/html/configuration.php && chmod 0777 /usr/share/nginx/html/configuration.php && chmod 0777 /usr/share/nginx/html/templates_c
